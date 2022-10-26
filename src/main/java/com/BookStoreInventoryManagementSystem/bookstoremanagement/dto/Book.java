@@ -49,6 +49,17 @@ public class Book {
 		this.genre = genre;
 	}
 	
+	public Book(String isbn, String title, List<Author> authors, String year, Double price, String genre) {
+		super();
+		this.isbn = isbn;
+		this.title = title;
+		this.authors = authors;
+		this.year = year;
+		this.price = price;
+		this.genre = genre;
+	}
+	
+	
 	
 	
 }
