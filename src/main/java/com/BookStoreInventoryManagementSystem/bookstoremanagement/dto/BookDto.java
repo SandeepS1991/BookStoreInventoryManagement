@@ -58,6 +58,9 @@ public class BookDto {
 		this.price = price;
 		this.genre = genre;
 	}
+	public BookDto() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	

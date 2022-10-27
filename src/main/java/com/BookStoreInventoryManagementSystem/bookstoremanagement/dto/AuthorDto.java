@@ -23,6 +23,9 @@ public class AuthorDto {
 		this.name = name;
 		this.dateOfBirth = dateOfBirth;
 	}
+	public AuthorDto() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	
