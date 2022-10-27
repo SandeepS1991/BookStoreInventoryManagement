@@ -2,11 +2,11 @@ package com.BookStoreInventoryManagementSystem.bookstoremanagement.dto;
 
 import java.util.List;
 
-public class Book {
+public class BookDto {
 
 	private String isbn;
 	private String title;
-	private List<Author> authors;
+	private List<AuthorDto> authors;
 	private String year;
 	private Double price;
 	private String genre;
@@ -24,10 +24,10 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public List<Author> getAuthors() {
+	public List<AuthorDto> getAuthors() {
 		return authors;
 	}
-	public void setAuthors(List<Author> authors) {
+	public void setAuthors(List<AuthorDto> authors) {
 		this.authors = authors;
 	}
 	public String getYear() {
@@ -49,7 +49,7 @@ public class Book {
 		this.genre = genre;
 	}
 	
-	public Book(String isbn, String title, List<Author> authors, String year, Double price, String genre) {
+	public BookDto(String isbn, String title, List<AuthorDto> authors, String year, Double price, String genre) {
 		super();
 		this.isbn = isbn;
 		this.title = title;

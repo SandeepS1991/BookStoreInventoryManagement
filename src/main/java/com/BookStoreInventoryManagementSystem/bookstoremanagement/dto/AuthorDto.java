@@ -1,6 +1,6 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.dto;
 
-public class Author {
+public class AuthorDto {
 
 	private String name;
 	private String dateOfBirth;
@@ -18,7 +18,7 @@ public class Author {
 		this.dateOfBirth = dateOfBirth;
 	}
 	
-	public Author(String name, String dateOfBirth) {
+	public AuthorDto(String name, String dateOfBirth) {
 		super();
 		this.name = name;
 		this.dateOfBirth = dateOfBirth;
