@@ -1,27 +1,9 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -33,25 +15,72 @@ public class BookEntity {
 	private Long id;
 	private String isbn;
 	private String title;
-//	@OneToMany(
-//			cascade = CascadeType.ALL
-//	)
-//	@JoinColumn(name="book_id")
-//    private List<AuthorEntity> authorEntities = new ArrayList();
 
 	private String year;
 	private Double price;
 	private String genre;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "author_id", referencedColumnName = "id")
+	private AuthorEntity authorEntity;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public AuthorEntity getAuthorEntity() {
+		return authorEntity;
+	}
+
+	public void setAuthorEntity(AuthorEntity authorEntity) {
+		this.authorEntity = authorEntity;
+	}
+	
 	
 	
 
-//	
-//	public void addAuthor(AuthorEntity author) {
-//		authorEntities.add(author);
-//	}
-//	
-//	public void removeAuthor(AuthorEntity author) {
-//		authorEntities.remove(author);
-//	}
-//	
 }

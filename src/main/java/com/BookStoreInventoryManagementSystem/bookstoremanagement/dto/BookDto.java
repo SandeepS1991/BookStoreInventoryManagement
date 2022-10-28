@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BookDto {
 
+	public Long id;
 	private String isbn;
 	private String title;
 	private List<AuthorDto> authors;
@@ -48,7 +49,15 @@ public class BookDto {
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public BookDto(String isbn, String title, List<AuthorDto> authors, String year, Double price, String genre) {
 		super();
 		this.isbn = isbn;
