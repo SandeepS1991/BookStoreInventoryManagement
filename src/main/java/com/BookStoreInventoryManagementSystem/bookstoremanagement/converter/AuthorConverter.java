@@ -7,19 +7,19 @@ import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.AuthorE
 @Component
 public class AuthorConverter {
 
-//	public AuthorEntity convertDtoToEntity(AuthorDto authorDto) {
-//		AuthorEntity authorEntity = new AuthorEntity();
-//		authorEntity.setName(authorDto.getName());
-//		authorEntity.setDateOfBirth(authorDto.getDateOfBirth());
-//		return authorEntity;
-//	}
-//	
-//	public AuthorDto convertEntityToDTO(AuthorEntity authorEntity) {
-//		AuthorDto authorDto = new AuthorDto();
-//		authorDto.setName(authorEntity.getName());
-//		authorDto.setDateOfBirth(authorEntity.getDateOfBirth());
-//		return authorDto;
-//	}
-//	
-//	
+	public AuthorEntity convertDtoToEntity(AuthorDto authorDto) {
+		AuthorEntity authorEntity = new AuthorEntity();
+		authorEntity.setName(authorDto.getName());
+		authorEntity.setDateOfBirth(authorDto.getDateOfBirth());
+		return authorEntity;
+	}
+	
+	public AuthorDto convertEntityToDTO(AuthorEntity authorEntity) {
+		AuthorDto authorDto = new AuthorDto();
+		authorDto.setName(authorEntity.getName());
+		authorDto.setDateOfBirth(authorEntity.getDateOfBirth());
+		return authorDto;
+	}
+	
+	
 }

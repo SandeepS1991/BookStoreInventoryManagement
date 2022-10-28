@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +28,14 @@ public class BookController {
 	public ResponseEntity<BookDto> saveBook(@RequestBody BookDto bookDto) {
 		logger.info("Inside the save book controller method.");
 		BookDto bookDTO = bookService.saveBook(bookDto);
-		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.CREATED);
+		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDTO, HttpStatus.CREATED);
 		return responseEntity;
 		
+	}
+	
+	@GetMapping("/hello")
+	public String sayHello() {
+		return "Hello!";
 	}
 	
 }

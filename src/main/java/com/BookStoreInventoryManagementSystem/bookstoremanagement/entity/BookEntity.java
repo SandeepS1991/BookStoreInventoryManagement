@@ -1,14 +1,13 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
 @Table
-@NoArgsConstructor
 public class BookEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +19,27 @@ public class BookEntity {
 	private Double price;
 	private String genre;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "author_id", referencedColumnName = "id")
-	private AuthorEntity authorEntity;
+	@OneToMany(mappedBy="bookEntity")
+	private Set<AuthorEntity> authorEntitySet;
+
+	
+	
+	
+	
+	public BookEntity() {
+	}
+
+	public BookEntity(Long id, String isbn, String title, String year, Double price, String genre,
+			Set<AuthorEntity> authorEntitySet) {
+		super();
+		this.id = id;
+		this.isbn = isbn;
+		this.title = title;
+		this.year = year;
+		this.price = price;
+		this.genre = genre;
+		this.authorEntitySet = authorEntitySet;
+	}
 
 	public Long getId() {
 		return id;
@@ -72,13 +89,15 @@ public class BookEntity {
 		this.genre = genre;
 	}
 
-	public AuthorEntity getAuthorEntity() {
-		return authorEntity;
+	public Set<AuthorEntity> getAuthorEntitySet() {
+		return authorEntitySet;
 	}
 
-	public void setAuthorEntity(AuthorEntity authorEntity) {
-		this.authorEntity = authorEntity;
+	public void setAuthorEntitySet(Set<AuthorEntity> authorEntitySet) {
+		this.authorEntitySet = authorEntitySet;
 	}
+	
+	
 	
 	
 	

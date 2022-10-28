@@ -1,13 +1,14 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.dto;
 
 import java.util.List;
+import java.util.Set;
 
 public class BookDto {
 
 	public Long id;
 	private String isbn;
 	private String title;
-	private List<AuthorDto> authors;
+	private Set<AuthorDto> authors;
 	private String year;
 	private Double price;
 	private String genre;
@@ -25,10 +26,10 @@ public class BookDto {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public List<AuthorDto> getAuthors() {
+	public Set<AuthorDto> getAuthors() {
 		return authors;
 	}
-	public void setAuthors(List<AuthorDto> authors) {
+	public void setAuthors(Set<AuthorDto> authors) {
 		this.authors = authors;
 	}
 	public String getYear() {
@@ -58,7 +59,7 @@ public class BookDto {
 		this.id = id;
 	}
 
-	public BookDto(String isbn, String title, List<AuthorDto> authors, String year, Double price, String genre) {
+	public BookDto(String isbn, String title, Set<AuthorDto> authors, String year, Double price, String genre) {
 		super();
 		this.isbn = isbn;
 		this.title = title;
@@ -68,7 +69,6 @@ public class BookDto {
 		this.genre = genre;
 	}
 	public BookDto() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	
