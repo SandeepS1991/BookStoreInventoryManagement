@@ -1,7 +1,11 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.dto;
 
-public class AuthorDto {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+public class AuthorDto {
+	@NotNull(message = "Name is mandatory.")
+	@NotEmpty(message = "Name cannot be empty.")
 	private String name;
 	private String dateOfBirth;
 	
@@ -24,7 +28,6 @@ public class AuthorDto {
 		this.dateOfBirth = dateOfBirth;
 	}
 	public AuthorDto() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	

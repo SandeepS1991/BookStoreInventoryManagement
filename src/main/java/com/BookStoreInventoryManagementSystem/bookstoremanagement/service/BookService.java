@@ -6,4 +6,6 @@ public interface BookService {
 
 	BookDto saveBook(BookDto bookDto);
 
+	BookDto updateBook(BookDto bookDto, Long bookId);
+
 }

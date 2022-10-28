@@ -7,6 +7,8 @@ import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.Boo
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,32 +26,32 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookConverter bookConverter;
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Override
 	public BookDto saveBook(BookDto bookDto) {
-		BookEntity bookEntity = bookRepository.save(bookConverter.convertBookDtoToEntity(bookDto));
-		for(AuthorEntity authorEntity: bookEntity.getAuthorEntitySet()) {
-			authorEntity.setBookEntity(bookEntity);
-			authorRepository.save(authorEntity);
+		logger.info("Inside the BookServiceImpl.saveBook() method.");
+		try {
+			BookEntity bookEntity = bookRepository.save(bookConverter.convertBookDtoToEntity(bookDto));
+			for(AuthorEntity authorEntity: bookEntity.getAuthorEntitySet()) {
+				authorEntity.setBookEntity(bookEntity);
+				authorRepository.save(authorEntity);
 
+			}
+			
+			return bookConverter.convertBookEntityToDto(bookEntity);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return null;
 		}
 		
-		return bookConverter.convertBookEntityToDto(bookEntity);
 	}
-//
-//	BookEntity toEntity(BookDto bookDto) {
-//		BookEntity entity = new BookEntity();
-//		entity.setId(bookDto.getId());
-//		entity.setGenre(bookDto.getGenre());
-//		entity.setIsbn(bookDto.getIsbn());
-//		entity.setTitle(bookDto.getTitle());
-//		entity.setYear(bookDto.getYear());
-//		entity.setPrice(bookDto.getPrice());
-//		return entity;
-//	}
-//
-//	BookDto toDto(BookEntity entity) {
-//		BookDto bookDto = new BookDto(entity.getIsbn(), entity.getTitle(), null,  entity.getYear(), entity.getPrice(), entity.getGenre());
-//		return bookDto;
-//	}
+
+	@Override
+	public BookDto updateBook(BookDto bookDto, Long bookId) {
+		
+		return null;
+	}
 
 }

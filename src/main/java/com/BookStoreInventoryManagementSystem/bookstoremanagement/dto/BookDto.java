@@ -1,16 +1,34 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.dto;
 
-import java.util.List;
+
 import java.util.Set;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BookDto {
 
 	public Long id;
+	@NotNull(message = "ISBN is mandatory.")
+	@NotEmpty(message = "ISBN cannot be empty.")
+	@Size(min = 5, max = 15, message = "ISBN should be between 5 and 15 characters in length.")
 	private String isbn;
+	@NotNull(message = "Title is mandatory.")
+	@NotEmpty(message = "Title cannot be empty.")
 	private String title;
 	private Set<AuthorDto> authors;
+	@NotNull(message = "Year is mandatory.")
+	@NotEmpty(message = "Year cannot be empty.")
 	private String year;
+	@NotNull(message = "Price is mandatory.")
 	private Double price;
+	@NotEmpty(message = "Genre cannot be empty.")
 	private String genre;
 	
 	
