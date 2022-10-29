@@ -22,4 +22,6 @@ public interface BookService {
 
 	BookDto retrieveBook(Long bookId);
 
+	void deleteBook(Long bookId);
+
 }

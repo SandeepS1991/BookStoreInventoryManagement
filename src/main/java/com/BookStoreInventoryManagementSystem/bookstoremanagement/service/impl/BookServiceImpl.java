@@ -180,5 +180,13 @@ public class BookServiceImpl implements BookService {
 		}
 		return null;
 	}
+	
+	
+	@Override
+	public void deleteBook(Long bookId) {
+		//yet to implement role based deletion
+		//need to retrieve authors for this book and delete as well
+		bookRepository.deleteById(bookId);
+	}
 
 }
