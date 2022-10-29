@@ -41,7 +41,6 @@ public class BookController {
 		bookDto = bookService.updateBook(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
 		return responseEntity;
-		
 	}
 	
 	@GetMapping("/hello")

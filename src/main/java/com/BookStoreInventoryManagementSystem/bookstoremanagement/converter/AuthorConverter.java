@@ -9,6 +9,9 @@ public class AuthorConverter {
 
 	public AuthorEntity convertDtoToEntity(AuthorDto authorDto) {
 		AuthorEntity authorEntity = new AuthorEntity();
+		if(authorDto.getId() != null) {
+			authorEntity.setId(authorDto.getId());
+		}
 		authorEntity.setName(authorDto.getName());
 		authorEntity.setDateOfBirth(authorDto.getDateOfBirth());
 		return authorEntity;
@@ -16,6 +19,7 @@ public class AuthorConverter {
 	
 	public AuthorDto convertEntityToDTO(AuthorEntity authorEntity) {
 		AuthorDto authorDto = new AuthorDto();
+		authorDto.setId(authorEntity.getId());
 		authorDto.setName(authorEntity.getName());
 		authorDto.setDateOfBirth(authorEntity.getDateOfBirth());
 		return authorDto;
