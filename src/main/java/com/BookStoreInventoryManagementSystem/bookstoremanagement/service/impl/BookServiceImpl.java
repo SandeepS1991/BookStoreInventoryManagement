@@ -92,21 +92,93 @@ public class BookServiceImpl implements BookService {
 		
 		return null;
 	}
+	@Override
+	public BookDto updateBookISBN(BookDto bookDto, Long bookId) {
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			bookEntity.setIsbn(bookDto.getIsbn());
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		
+		return null;
+	}
 	
-//public PropertyDTO updateProperty(PropertyDTO propertyDTO, Long propertyId) {
-//		
-//		Optional<PropertyEntity> optEnt = propertyRepository.findById(propertyId);
-//		PropertyDTO pDTO =null;
-//		if(optEnt.isPresent()) {
-//			PropertyEntity pe = optEnt.get();
-//			pe.setTitle(propertyDTO.getTitle());
-//			pe.setDescription(propertyDTO.getDescription());
-//			pe.setPrice(propertyDTO.getPrice());
-//			pe.setAddress(propertyDTO.getAddress());
-//			PropertyEntity pe_updated = propertyRepository.save(pe);
-//			pDTO = propertyConverter.convertEntitytoDTO(pe_updated);
-//		}
-//		return pDTO;
-//	}
+	@Override
+	public BookDto updateBookTitle(BookDto bookDto, Long bookId) {
+
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			bookEntity.setTitle(bookDto.getTitle());
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		return null;
+	}
+	
+	@Override
+	public BookDto updateBookYear(BookDto bookDto, Long bookId) {
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			bookEntity.setYear(bookDto.getYear());
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		return null;
+	}
+	
+	@Override
+	public BookDto updateBookPrice(BookDto bookDto, Long bookId) {
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			bookEntity.setPrice(bookDto.getPrice());
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		return null;
+	}
+	
+	@Override
+	public BookDto updateBookGenre(BookDto bookDto, Long bookId) {
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			bookEntity.setGenre(bookDto.getGenre());
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		return null;
+	}
+	
+	@Override
+	public BookDto updateBookAuthor(BookDto bookDto, Long bookId) {
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			List<AuthorEntity> authorEntityList = new ArrayList<>();
+			for(AuthorDto authordto: bookDto.getAuthors()) {
+				Optional<AuthorEntity> optAuthorEntity = authorRepository.findById(authordto.getId());
+				if(optAuthorEntity.isPresent()) {
+					AuthorEntity authorEntity = authorConverter.convertDtoToEntity(authordto);
+					authorEntity.setBookEntity(bookEntity);
+					authorEntity = authorRepository.save(authorEntity);
+					authorEntityList.add(authorEntity);
+				}
+			}
+			Set<AuthorEntity> authorEntitySet = new HashSet<>(authorEntityList);
+			bookEntity.setAuthorEntitySet(authorEntitySet);
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		return null;
+	}
+	
+	@Override
+	public BookDto retrieveBook(Long bookId) {
+		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+		if(optBookEntity.isPresent()) {
+			BookEntity bookEntity = optBookEntity.get();
+			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+		}
+		return null;
+	}
 
 }
