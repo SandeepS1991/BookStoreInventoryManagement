@@ -1,5 +1,8 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.dto.BookDto;
@@ -93,11 +97,11 @@ public class BookController {
 		return responseEntity;
 	}
 	
-	@GetMapping("/retrieveBook/{bookId}")
-	public ResponseEntity<BookDto> retrieveBook(@PathVariable Long bookId) {
+	@GetMapping("/retrieveBook/{title}/{authorName}")
+	public ResponseEntity<List<BookDto>> retrieveBook(@RequestParam Optional<String> title, @RequestParam Optional<String> authorName) {
 		
-		BookDto bookDto = bookService.retrieveBook(bookId);
-		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
+		List<BookDto> books = bookService.retrieveBookByTitleOrName(title, authorName);
+		ResponseEntity<List<BookDto>> responseEntity = new ResponseEntity<>(books, HttpStatus.OK);
 		return responseEntity;
 	}
 	

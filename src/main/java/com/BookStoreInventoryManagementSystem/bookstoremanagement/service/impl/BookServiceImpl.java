@@ -171,15 +171,15 @@ public class BookServiceImpl implements BookService {
 		return null;
 	}
 	
-	@Override
-	public BookDto retrieveBook(Long bookId) {
-		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
-		if(optBookEntity.isPresent()) {
-			BookEntity bookEntity = optBookEntity.get();
-			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
-		}
-		return null;
-	}
+//	@Override
+//	public BookDto retrieveBook(Long bookId) {
+//		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+//		if(optBookEntity.isPresent()) {
+//			BookEntity bookEntity = optBookEntity.get();
+//			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+//		}
+//		return null;
+//	}
 	
 	
 	@Override
@@ -187,6 +187,54 @@ public class BookServiceImpl implements BookService {
 		//yet to implement role based deletion
 		//need to retrieve authors for this book and delete as well
 		bookRepository.deleteById(bookId);
+	}
+	
+	@Override
+	public List<BookDto> retrieveBookByTitleOrName(Optional<String> title, Optional<String> authorName) {
+		List<BookDto> bookDtoList = new ArrayList<>();
+		if (title.isPresent() && authorName.isPresent()) {
+			Optional<List<AuthorEntity>> authorEntityList = authorRepository.findByName(authorName.get());
+			if(authorEntityList.isPresent()){
+				for(AuthorEntity authorE: authorEntityList.get()) {
+					Optional<BookEntity> optBookEntity = bookRepository.findByIdAndTitle(authorE.getBookEntity().getId(), title.get());
+					if(optBookEntity.isPresent()) {
+						BookDto bookDto = bookConverter.convertBookEntityToDto(optBookEntity.get());
+						bookDtoList.add(bookDto);
+					}
+					
+				}
+			}
+			
+			
+		}
+		else if(title.isPresent()) {
+			Optional<List<BookEntity>> optBookEntity = bookRepository.findByTitle(title.get());
+			if(optBookEntity.isPresent()){
+				for(BookEntity bookEnt: optBookEntity.get()) {
+					BookDto bookDto = bookConverter.convertBookEntityToDto(bookEnt);
+					bookDtoList.add(bookDto);
+				}
+			}
+		}
+		else if(authorName.isPresent()) {
+			Optional<List<AuthorEntity>> authorEntityList = authorRepository.findByName(authorName.get());
+			if(authorEntityList.isPresent()){
+				for(AuthorEntity authorE: authorEntityList.get()) {
+					Optional<BookEntity> optBookEntity = bookRepository.findById(authorE.getBookEntity().getId());
+					if(optBookEntity.isPresent()) {
+						BookDto bookDto = bookConverter.convertBookEntityToDto(optBookEntity.get());
+						bookDtoList.add(bookDto);
+					}
+					
+				}
+			}
+		}
+		else {
+			//throw exception
+		}
+		
+		return bookDtoList;
+		
 	}
 
 }
