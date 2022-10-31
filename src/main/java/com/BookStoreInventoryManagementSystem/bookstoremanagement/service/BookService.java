@@ -25,6 +25,8 @@ public interface BookService {
 
 	void deleteBook(Long bookId);
 
-	List<BookDto> retrieveBookByTitleOrName(Optional<String> title, Optional<String> authorName);
+	//List<BookDto> retrieveBookByTitleOrName(Optional<String> title, Optional<String> authorName);
+
+	List<BookDto> retrieveBookByTitleOrName(String title, String authorName);
 
 }

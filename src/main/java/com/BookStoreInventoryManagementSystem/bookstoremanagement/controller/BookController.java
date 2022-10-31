@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -96,10 +97,10 @@ public class BookController {
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
 		return responseEntity;
 	}
-	
-	@GetMapping("/retrieveBook/{title}/{authorName}")
-	public ResponseEntity<List<BookDto>> retrieveBook(@RequestParam Optional<String> title, @RequestParam Optional<String> authorName) {
-		
+
+	@GetMapping("/retrieveBook")
+	public ResponseEntity<List<BookDto>> retrieveBook(@RequestParam("title") String title, @RequestParam("authorName") String authorName) {
+		System.out.println("In controller retrieve Book");
 		List<BookDto> books = bookService.retrieveBookByTitleOrName(title, authorName);
 		ResponseEntity<List<BookDto>> responseEntity = new ResponseEntity<>(books, HttpStatus.OK);
 		return responseEntity;

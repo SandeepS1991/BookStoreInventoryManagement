@@ -171,17 +171,6 @@ public class BookServiceImpl implements BookService {
 		return null;
 	}
 	
-//	@Override
-//	public BookDto retrieveBook(Long bookId) {
-//		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
-//		if(optBookEntity.isPresent()) {
-//			BookEntity bookEntity = optBookEntity.get();
-//			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
-//		}
-//		return null;
-//	}
-	
-	
 	@Override
 	public void deleteBook(Long bookId) {
 		//yet to implement role based deletion
@@ -190,25 +179,23 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public List<BookDto> retrieveBookByTitleOrName(Optional<String> title, Optional<String> authorName) {
+	public List<BookDto> retrieveBookByTitleOrName(String title, String authorName) {
 		List<BookDto> bookDtoList = new ArrayList<>();
-		if (title.isPresent() && authorName.isPresent()) {
-			Optional<List<AuthorEntity>> authorEntityList = authorRepository.findByName(authorName.get());
-			if(authorEntityList.isPresent()){
-				for(AuthorEntity authorE: authorEntityList.get()) {
-					Optional<BookEntity> optBookEntity = bookRepository.findByIdAndTitle(authorE.getBookEntity().getId(), title.get());
+		if (!title.isEmpty() && !authorName.isEmpty()) {
+			List<AuthorEntity> authorList = authorRepository.findByNameEquals(authorName);
+			if(!authorList.isEmpty()){
+				for(AuthorEntity authorE: authorList) {
+					Optional<BookEntity> optBookEntity = bookRepository.findByIdAndTitle(authorE.getBookEntity().getId(), title);
 					if(optBookEntity.isPresent()) {
 						BookDto bookDto = bookConverter.convertBookEntityToDto(optBookEntity.get());
 						bookDtoList.add(bookDto);
 					}
-					
-				}
 			}
-			
-			
+				
+			}
 		}
-		else if(title.isPresent()) {
-			Optional<List<BookEntity>> optBookEntity = bookRepository.findByTitle(title.get());
+		else if(!title.isEmpty()) {
+			Optional<List<BookEntity>> optBookEntity = bookRepository.findByTitle(title);
 			if(optBookEntity.isPresent()){
 				for(BookEntity bookEnt: optBookEntity.get()) {
 					BookDto bookDto = bookConverter.convertBookEntityToDto(bookEnt);
@@ -216,17 +203,17 @@ public class BookServiceImpl implements BookService {
 				}
 			}
 		}
-		else if(authorName.isPresent()) {
-			Optional<List<AuthorEntity>> authorEntityList = authorRepository.findByName(authorName.get());
-			if(authorEntityList.isPresent()){
-				for(AuthorEntity authorE: authorEntityList.get()) {
+		else if(!authorName.isEmpty()) {
+			List<AuthorEntity> authorList = authorRepository.findByNameEquals(authorName);
+			if(!authorList.isEmpty()){
+				for(AuthorEntity authorE: authorList) {
 					Optional<BookEntity> optBookEntity = bookRepository.findById(authorE.getBookEntity().getId());
 					if(optBookEntity.isPresent()) {
 						BookDto bookDto = bookConverter.convertBookEntityToDto(optBookEntity.get());
 						bookDtoList.add(bookDto);
 					}
-					
-				}
+			}
+				
 			}
 		}
 		else {
