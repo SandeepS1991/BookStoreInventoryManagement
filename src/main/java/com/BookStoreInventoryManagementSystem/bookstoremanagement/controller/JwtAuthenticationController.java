@@ -29,7 +29,7 @@ import com.BookStoreInventoryManagementSystem.bookstoremanagement.service.impl.J
 //import com.javainuse.model.JwtResponse;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", exposedHeaders ="Authorization")
 public class JwtAuthenticationController {
 
 	@Autowired

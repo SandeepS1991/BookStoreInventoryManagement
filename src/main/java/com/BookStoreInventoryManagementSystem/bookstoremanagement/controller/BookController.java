@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -108,7 +109,7 @@ public class BookController {
 	
 	@DeleteMapping("/deleteBook/{bookId}")
 	public ResponseEntity<Void> deleteBook(@PathVariable Long bookId) {
-		
+		SecurityContextHolder.getContext().getAuthentication().getName();
 		bookService.deleteBook(bookId);
 		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}

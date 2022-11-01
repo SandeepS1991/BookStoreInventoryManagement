@@ -1,6 +1,8 @@
 package com.BookStoreInventoryManagementSystem.bookstoremanagement.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,6 +21,8 @@ public class BookEntity {
 	private Double price;
 	private String genre;
 
+	@EqualsAndHashCode.Exclude // <<<<<<<<<<
+	@ToString.Exclude // <<<<<<<
 	@OneToMany(mappedBy="bookEntity")
 	private Set<AuthorEntity> authorEntitySet;
 
