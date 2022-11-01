@@ -109,8 +109,8 @@ public class BookController {
 	
 	@DeleteMapping("/deleteBook/{bookId}")
 	public ResponseEntity<Void> deleteBook(@PathVariable Long bookId) {
-		SecurityContextHolder.getContext().getAuthentication().getName();
-		bookService.deleteBook(bookId);
+		String userName =SecurityContextHolder.getContext().getAuthentication().getName();
+		bookService.deleteBook(bookId, userName);
 		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}
 	

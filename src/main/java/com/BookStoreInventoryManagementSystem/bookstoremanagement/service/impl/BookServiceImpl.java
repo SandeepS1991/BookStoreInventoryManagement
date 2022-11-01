@@ -28,6 +28,7 @@ import com.BookStoreInventoryManagementSystem.bookstoremanagement.dto.BookDto;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.service.BookService;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class BookServiceImpl implements BookService {
 	@Autowired
@@ -182,7 +183,11 @@ public class BookServiceImpl implements BookService {
 		//need to retrieve authors for this book and delete as well
 		UserEntity userEntity = userRepository.findByUsername(userName);
 		if(userEntity.getRole().equalsIgnoreCase("Admin")) {
-			bookRepository.deleteById(bookId);
+			int numAuthorRowsDeleted = authorRepository.deleteByBookIdNative(bookId);
+			if(numAuthorRowsDeleted != 0) {
+				bookRepository.deleteById(bookId);
+			}
+			
 		}
 		
 	}
