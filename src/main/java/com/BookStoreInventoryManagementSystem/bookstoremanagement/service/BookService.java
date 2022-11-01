@@ -23,7 +23,7 @@ public interface BookService {
 
 	BookDto updateBookAuthor(BookDto bookDto, Long bookId);
 
-	void deleteBook(Long bookId);
+	void deleteBook(Long bookId, String userName);
 
 	//List<BookDto> retrieveBookByTitleOrName(Optional<String> title, Optional<String> authorName);
 

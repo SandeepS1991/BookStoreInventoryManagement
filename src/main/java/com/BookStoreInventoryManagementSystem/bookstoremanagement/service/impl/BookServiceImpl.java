@@ -2,8 +2,11 @@ package com.BookStoreInventoryManagementSystem.bookstoremanagement.service.impl;
 
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.AuthorEntity;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.BookEntity;
+import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.UserEntity;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.AuthorRepository;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.BookRepository;
+import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class BookServiceImpl implements BookService {
 	private BookRepository bookRepository;
 	@Autowired
 	private AuthorRepository authorRepository;
+	@Autowired
+	private UserRepository userRepository;
 	@Autowired
 	private BookConverter bookConverter;
 	@Autowired
@@ -172,10 +177,14 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public void deleteBook(Long bookId) {
+	public void deleteBook(Long bookId, String userName) {
 		//yet to implement role based deletion
 		//need to retrieve authors for this book and delete as well
-		bookRepository.deleteById(bookId);
+		UserEntity userEntity = userRepository.findByUsername(userName);
+		if(userEntity.getRole().equalsIgnoreCase("Admin")) {
+			bookRepository.deleteById(bookId);
+		}
+		
 	}
 	
 	@Override
