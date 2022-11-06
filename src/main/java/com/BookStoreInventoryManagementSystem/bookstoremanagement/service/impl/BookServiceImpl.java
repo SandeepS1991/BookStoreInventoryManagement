@@ -3,6 +3,8 @@ package com.BookStoreInventoryManagementSystem.bookstoremanagement.service.impl;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.AuthorEntity;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.BookEntity;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.entity.UserEntity;
+import com.BookStoreInventoryManagementSystem.bookstoremanagement.exception.BusinessException;
+import com.BookStoreInventoryManagementSystem.bookstoremanagement.exception.ErrorModel;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.AuthorRepository;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.BookRepository;
 import com.BookStoreInventoryManagementSystem.bookstoremanagement.repository.UserRepository;
@@ -47,57 +49,107 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookDto saveBook(BookDto bookDto) {
 		logger.info("Inside the BookServiceImpl.saveBook() method.");
-		try {
+//		try {
+			Optional<BookEntity> optEnt = bookRepository.findByIsbn(bookDto.getIsbn());
+			
+			if(!optEnt.isPresent()) {
 			BookEntity bookEntity = bookRepository.save(bookConverter.convertBookDtoToEntity(bookDto));
-			for(AuthorEntity authorEntity: bookEntity.getAuthorEntitySet()) {
-				authorEntity.setBookEntity(bookEntity);
-				authorRepository.save(authorEntity);
-
-			}
+				for(AuthorEntity authorEntity: bookEntity.getAuthorEntitySet()) {
+					authorEntity.setBookEntity(bookEntity);
+					authorRepository.save(authorEntity);
+	
+				}
 			
 			return bookConverter.convertBookEntityToDto(bookEntity);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			return null;
-		}
+			}
+			else {
+				logger.error("Book with this ISBN already exists.");
+				List<ErrorModel> errorModelList = new ArrayList<>();
+				ErrorModel errorModel = new ErrorModel();
+				errorModel.setCode("ISBN ALREADY EXISTS");
+				errorModel.setMessage("Book with this ISBN already exists." );
+				errorModelList.add(errorModel);
+				
+				throw new BusinessException(errorModelList);
+			}
+			
+//		} catch (Exception e) {
+//			logger.error("Exception occurred: " + e.getMessage());
+//			e.printStackTrace();
+//			List<ErrorModel> errorModelList = new ArrayList<>();
+//			ErrorModel errorModel = new ErrorModel();
+//			errorModel.setCode("EXCEPTION OCCURRED");
+//			errorModel.setMessage("Exception occurred while saving new book.");
+//			errorModelList.add(errorModel);
+//			
+//			throw new BusinessException(errorModelList);
+//
+//		}
 		
 	}
 	@Transactional
 	@SuppressWarnings("null")
 	@Override
 	public BookDto updateBook(BookDto bookDto, Long bookId) {
-		
-		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
-		if(optBookEntity.isPresent()) {
-			BookEntity bookEntity = optBookEntity.get();
-			bookEntity.setId(bookId);
-			bookEntity.setIsbn(bookDto.getIsbn());
-			bookEntity.setTitle(bookDto.getTitle());
-			bookEntity.setYear(bookDto.getYear());
-			bookEntity.setPrice(bookDto.getPrice());
-			bookEntity.setGenre(bookDto.getGenre());
-			
-			List<AuthorEntity> authorEntityList = new ArrayList<>();
-			for(AuthorDto authordto: bookDto.getAuthors()) {
+		logger.info("Inside the BookServiceImpl.updateBook() method. START");
+		try {
+			Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
+			if(optBookEntity.isPresent()) {
+				BookEntity bookEntity = optBookEntity.get();
+				bookEntity.setId(bookId);
+				bookEntity.setIsbn(bookDto.getIsbn());
+				bookEntity.setTitle(bookDto.getTitle());
+				bookEntity.setYear(bookDto.getYear());
+				bookEntity.setPrice(bookDto.getPrice());
+				bookEntity.setGenre(bookDto.getGenre());
+				
+				List<AuthorEntity> authorEntityList = new ArrayList<>();
+				for(AuthorDto authordto: bookDto.getAuthors()) {
 
-				Optional<AuthorEntity> optAuthorEntity = authorRepository.findById(authordto.getId());
-				if(optAuthorEntity.isPresent()) {
-					AuthorEntity authorEntity = authorConverter.convertDtoToEntity(authordto);
+					Optional<AuthorEntity> optAuthorEntity = authorRepository.findById(authordto.getId());
+					if(optAuthorEntity.isPresent()) {
+						AuthorEntity authorEntity = authorConverter.convertDtoToEntity(authordto);
 
-					authorEntity.setBookEntity(bookEntity);
-					authorEntity = authorRepository.save(authorEntity);
-					authorEntityList.add(authorEntity);
+						authorEntity.setBookEntity(bookEntity);
+						authorEntity = authorRepository.save(authorEntity);
+						authorEntityList.add(authorEntity);
+					}
 				}
-			}
-			Set<AuthorEntity> authorEntitySet = new HashSet<>(authorEntityList);
-			bookEntity.setAuthorEntitySet(authorEntitySet);
-			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
+				Set<AuthorEntity> authorEntitySet = new HashSet<>(authorEntityList);
+				bookEntity.setAuthorEntitySet(authorEntitySet);
+				logger.info("Inside the BookServiceImpl.updateBook() method. END");
+				return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
 
+			}
+			else {
+				logger.error("Inside the BookServiceImpl.updateBook() method. No ");
+				List<ErrorModel> errorModelList = new ArrayList<>();
+				ErrorModel errorModel = new ErrorModel();
+				errorModel.setCode("INVALID_BOOK_ID");
+				errorModel.setMessage("No Records found to update with this book id: " + bookId);
+				errorModelList.add(errorModel);
+				
+				throw new BusinessException(errorModelList);
+				
+			}
+			
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			logger.error("Inside the BookServiceImpl.updateBook() method. No ");
+			List<ErrorModel> errorModelList = new ArrayList<>();
+			ErrorModel errorModel = new ErrorModel();
+			errorModel.setCode("INVALID_BOOK_ID");
+			errorModel.setMessage("No Records found to update with this book id: " + bookId);
+			errorModelList.add(errorModel);
+			
+			throw new BusinessException(errorModelList);
 		}
 		
-		return null;
 	}
+	
 	@Override
 	public BookDto updateBookISBN(BookDto bookDto, Long bookId) {
 		Optional<BookEntity> optBookEntity = bookRepository.findById(bookId);
@@ -106,8 +158,18 @@ public class BookServiceImpl implements BookService {
 			bookEntity.setIsbn(bookDto.getIsbn());
 			return bookConverter.convertBookEntityToDto(bookRepository.save(bookEntity));
 		}
+		else {
+			logger.error("Inside the BookServiceImpl.updateBook() method. No ");
+			List<ErrorModel> errorModelList = new ArrayList<>();
+			ErrorModel errorModel = new ErrorModel();
+			errorModel.setCode("INVALID_BOOK_ID");
+			errorModel.setMessage("No Records found to update with this book id: " + bookId);
+			errorModelList.add(errorModel);
+			
+			throw new BusinessException(errorModelList);	
+		}
 		
-		return null;
+
 	}
 	
 	@Override

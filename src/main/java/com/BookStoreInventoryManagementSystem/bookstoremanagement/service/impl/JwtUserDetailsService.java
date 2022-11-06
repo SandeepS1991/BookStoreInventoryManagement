@@ -50,18 +50,21 @@ public class JwtUserDetailsService implements UserDetailsService {
 	public UserDto save(UserDto user) {
 	
 		
-		
+		System.out.println("USER: "+user.toString());
 		UserEntity newUser = new UserEntity();
 		newUser = userRepo.findByUsername(user.getUsername());
-		if(newUser.getUsername().isEmpty()) {
-		newUser.setUsername(user.getUsername());
-		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		newUser.setRole(user.getRole());
+		if(newUser == null) {
+		UserEntity newUserToBeCreated = new UserEntity();
+		newUserToBeCreated.setUsername(user.getUsername());
+		newUserToBeCreated.setPassword(bcryptEncoder.encode(user.getPassword()));
+		newUserToBeCreated.setRole(user.getRole());
 		
-		newUser = userRepo.save(newUser);
-		user.setUsername(newUser.getUsername());
-		user.setPassword(newUser.getPassword());
-		user.setRole(newUser.getRole());
+		newUserToBeCreated = userRepo.save(newUserToBeCreated);
+		user.setUsername(newUserToBeCreated.getUsername());
+		user.setPassword(newUserToBeCreated.getPassword());
+		user.setRole(newUserToBeCreated.getRole());
+		
+		return user;
 		}
 		else {
 			List<ErrorModel> errorModelList = new ArrayList<>();
@@ -73,7 +76,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 			throw new BusinessException(errorModelList);
 		}
 		
-		return user;
+
 	}
 	
 }

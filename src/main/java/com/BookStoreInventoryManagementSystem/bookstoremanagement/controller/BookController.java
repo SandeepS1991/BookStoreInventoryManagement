@@ -3,6 +3,8 @@ package com.BookStoreInventoryManagementSystem.bookstoremanagement.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class BookController {
 	private BookService bookService;
 	
 	@PostMapping("/addNewBook")
-	public ResponseEntity<BookDto> saveBook(@RequestBody BookDto bookDto) {
+	public ResponseEntity<BookDto> saveBook(@Valid @RequestBody BookDto bookDto) {
 		logger.info("Inside the save book controller method.");
 		BookDto bookDTO = bookService.saveBook(bookDto);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDTO, HttpStatus.CREATED);
@@ -44,7 +46,7 @@ public class BookController {
 	}
 	
 	@PutMapping("/updateBook/{bookId}")
-	public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBook(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
@@ -52,7 +54,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/updateBook-ISBN/{bookId}")
-	public ResponseEntity<BookDto> updateBookISBN(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBookISBN(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBookISBN(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
@@ -60,7 +62,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/updateBook-Title/{bookId}")
-	public ResponseEntity<BookDto> updateBookTitle(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBookTitle(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBookTitle(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
@@ -68,7 +70,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/updateBook-Year/{bookId}")
-	public ResponseEntity<BookDto> updateBookYear(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBookYear(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBookYear(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
@@ -76,7 +78,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/updateBook-Price/{bookId}")
-	public ResponseEntity<BookDto> updateBookPrice(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBookPrice(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBookPrice(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
@@ -84,7 +86,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/updateBook-Genre/{bookId}")
-	public ResponseEntity<BookDto> updateBookGenre(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBookGenre(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBookGenre(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
@@ -92,7 +94,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/updateBook-Author/{bookId}")
-	public ResponseEntity<BookDto> updateBookAuthor(@RequestBody BookDto bookDto,@PathVariable Long bookId) {
+	public ResponseEntity<BookDto> updateBookAuthor(@Valid @RequestBody BookDto bookDto,@PathVariable Long bookId) {
 		
 		bookDto = bookService.updateBookAuthor(bookDto, bookId);
 		ResponseEntity<BookDto> responseEntity = new ResponseEntity<>(bookDto, HttpStatus.OK);
